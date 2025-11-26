@@ -728,11 +728,11 @@
 
             iframe.onerror = () => {
                 panel.innerHTML = `
-    <div class="loading">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
-        <div class="loading-text">Fehler beim Laden der App</div>
-    </div>
-    `;
+                <div class="loading">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                    <div class="loading-text">Fehler beim Laden der App</div>
+                </div>
+                `;
             };
         }
 
@@ -748,7 +748,7 @@
             switchTab(currentTab);
         }
 
-        // PWA Install Prompt
+        // PWA Install Prompt (with null checks)
         let deferredPrompt;
         const installPrompt = document.getElementById('installPrompt');
         const installBtn = document.getElementById('installBtn');
@@ -758,32 +758,40 @@
             e.preventDefault();
             deferredPrompt = e;
 
-            // Show install prompt if not dismissed
-            if (!localStorage.getItem('aruh-tools-install-dismissed')) {
+            // Show install prompt if not dismissed and element exists
+            if (installPrompt && !localStorage.getItem('aruh-tools-install-dismissed')) {
                 setTimeout(() => {
                     installPrompt.classList.add('show');
                 }, 3000);
             }
         });
 
-        installBtn.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
 
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
 
-            if (outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            }
+                if (outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                }
 
-            deferredPrompt = null;
-            installPrompt.classList.remove('show');
-        });
+                deferredPrompt = null;
+                if (installPrompt) {
+                    installPrompt.classList.remove('show');
+                }
+            });
+        }
 
-        dismissBtn.addEventListener('click', () => {
-            installPrompt.classList.remove('show');
-            localStorage.setItem('aruh-tools-install-dismissed', 'true');
-        });
+        if (dismissBtn) {
+            dismissBtn.addEventListener('click', () => {
+                if (installPrompt) {
+                    installPrompt.classList.remove('show');
+                }
+                localStorage.setItem('aruh-tools-install-dismissed', 'true');
+            });
+        }
 
         // Register Service Worker
         if ('serviceWorker' in navigator) {
@@ -802,12 +810,15 @@
         document.addEventListener('keydown', (e) => {
             // Alt + Number to switch tabs
             if (e.altKey && e.key >= '1' && e.key <= '6') {
-                e.preventDefault(); const tabNames = ['welcome', 'gebuehren'
-                    , 'spedscan', 'lieferscanner', 'bestand', 'osf']; const index = parseInt(e.key) - 1; if (tabNames[index]) {
-                        switchTab(tabNames[index]);
-                    }
+                e.preventDefault();
+                const tabNames = ['welcome', 'gebuehren', 'spedscan', 'lieferscanner', 'bestand', 'osf'];
+                const index = parseInt(e.key) - 1;
+                if (tabNames[index]) {
+                    switchTab(tabNames[index]);
+                }
             }
-        }); </script>
+        });
+    </script>
 </body>
 
 </html>
