@@ -4,820 +4,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AruH Tools - Vereintes Toolkit für alle Ihre Business-Anwendungen">
     <meta name="theme-color" content="#93c01f">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="AruH Tools">
-    <title>AruH Tools - Unified Toolkit</title>
-
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="./manifest.json">
-
-    <!-- Icons -->
-    <link rel="icon" type="image/png" href="./icons/favicon.png">
-    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --primary: #93c01f;
-            --primary-dark: #7ba60d;
-            --primary-light: #a8d63f;
-            --bg-dark: #0f0f0f;
-            --bg-card: #1a1a1a;
-            --bg-elevated: #242424;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --border: rgba(255, 255, 255, 0.1);
-            --shadow: rgba(0, 0, 0, 0.5);
-            --glass-bg: rgba(26, 26, 26, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Animated background gradient */
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(147, 192, 31, 0.1) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Header */
-        .header {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 1.5rem 2rem;
-            box-shadow: 0 4px 24px var(--shadow);
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: white;
-            box-shadow: 0 4px 12px rgba(147, 192, 31, 0.3);
-            flex-shrink: 0;
-        }
-
-        .header-text {
-            flex: 1;
-        }
-
-        .header h1 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.25rem;
-        }
-
-        .header p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        /* Tab Navigation */
-        .tab-nav {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 0 2rem;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) transparent;
-        }
-
-        .tab-nav::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .tab-nav::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .tab-nav::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 2px;
-        }
-
-        .tab-list {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            gap: 0.5rem;
-            list-style: none;
-            min-height: 60px;
-        }
-
-        .tab-button {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            padding: 1rem 1.5rem;
-            font-size: 0.9375rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-bottom: 3px solid transparent;
-            white-space: nowrap;
-            position: relative;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .tab-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            opacity: 0;
-            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 8px 8px 0 0;
-            z-index: -1;
-        }
-
-        .tab-button:hover {
-            color: var(--text-primary);
-        }
-
-        .tab-button:hover::before {
-            opacity: 0.1;
-        }
-
-        .tab-button.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .tab-button.active::before {
-            opacity: 0.15;
-        }
-
-        /* Content Area */
-        .content-area {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            background: var(--bg-dark);
-        }
-
-        .tab-panel {
-            display: none;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .tab-panel.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .app-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-        }
-
-        .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .loading-text {
-            color: var(--text-secondary);
-            font-size: 0.9375rem;
-            font-weight: 500;
-        }
-
-        /* Welcome Screen */
-        .welcome {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 2rem;
-        }
-
-        .welcome-content {
-            text-align: center;
-            max-width: 600px;
-        }
-
-        .welcome-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 2rem;
-            border-radius: 24px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            box-shadow: 0 8px 32px rgba(147, 192, 31, 0.4);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .welcome h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .welcome p {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            box-shadow: 0 8px 24px rgba(147, 192, 31, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header {
-                padding: 1rem 1.5rem;
-            }
-
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .header p {
-                font-size: 0.8125rem;
-            }
-
-            .logo {
-                width: 40px;
-                height: 40px;
-                font-size: 1.25rem;
-            }
-
-            .tab-nav {
-                padding: 0 1rem;
-            }
-
-            .tab-button {
-                padding: 0.875rem 1.25rem;
-                font-size: 0.875rem;
-            }
-
-            .welcome h2 {
-                font-size: 2rem;
-            }
-
-            .welcome p {
-                font-size: 1rem;
-            }
-
-            .welcome-icon {
-                width: 100px;
-                height: 100px;
-                font-size: 3rem;
-            }
-
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 1rem;
-            }
-
-            .header h1 {
-                font-size: 1.25rem;
-            }
-
-            .tab-nav {
-                padding: 0 0.5rem;
-            }
-
-            .tab-button {
-                padding: 0.75rem 1rem;
-                font-size: 0.8125rem;
-            }
-        }
-
-        /* Install prompt */
-        .install-prompt {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px var(--shadow);
-            max-width: 320px;
-            display: none;
-            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .install-prompt.show {
-            display: block;
-        }
-
-        .install-prompt h3 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .install-prompt p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .install-buttons {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .btn {
-            padding: 0.625rem 1.25rem;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: none;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            flex: 1;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(147, 192, 31, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-    </style>
+    <title>AruH Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <img src="./logo_Aruh.jpg" alt="AruH Logo" class="logo" style="object-fit: cover;">
-                <div class="header-text">
-                    <h1>AruH Tools</h1>
-                    <p>Vereintes Toolkit für alle Ihre Business-Anwendungen</p>
-                </div>
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <h1>AruH Tools</h1>
+                <p class="version">v1.0.0 (PWA)</p>
             </div>
-        </header>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-app="home">
+                    <span class="icon">🏠</span>
+                    <span class="label">Home</span>
+                </button>
+                <button class="nav-item" data-app="gebuehrenrechner">
+                    <span class="icon">💰</span>
+                    <span class="label">Gebührenrechner</span>
+                </button>
+                <button class="nav-item" data-app="spedscan">
+                    <span class="icon">📦</span>
+                    <span class="label">SpedScan</span>
+                </button>
+                <button class="nav-item" data-app="lieferscanner">
+                    <span class="icon">🚚</span>
+                    <span class="label">Lieferscanner</span>
+                </button>
+                <button class="nav-item" data-app="bestandsabgleich">
+                    <span class="icon">📊</span>
+                    <span class="label">Bestandsabgleich</span>
+                </button>
+                <button class="nav-item" data-app="osf-bestellung">
+                    <span class="icon">🛒</span>
+                    <span class="label">OSF Bestellung</span>
+                </button>
+                <button class="nav-item" data-app="bildkonverter">
+                    <span class="icon">🖼️</span>
+                    <span class="label">BildKonverter</span>
+                </button>
+                <button class="nav-item" data-app="csvmatcher">
+                    <span class="icon">📋</span>
+                    <span class="label">CSV Matcher</span>
+                </button>
+            </nav>
+        </aside>
 
-        <!-- Tab Navigation -->
-        <nav class="tab-nav" role="tablist">
-            <ul class="tab-list">
-                <li role="presentation">
-                    <button class="tab-button active" role="tab" aria-selected="true" aria-controls="panel-welcome"
-                        data-tab="welcome">
-                        🏠 Start
-                    </button>
-                </li>
-                <li role="presentation">
-                    <button class="tab-button" role="tab" aria-selected="false" aria-controls="panel-gebuehren"
-                        data-tab="gebuehren">
-                        💰 Gebührenrechner
-                    </button>
-                </li>
-                <li role="presentation">
-                    <button class="tab-button" role="tab" aria-selected="false" aria-controls="panel-spedscan"
-                        data-tab="spedscan">
-                        📦 SpedScan
-                    </button>
-                </li>
-                <li role="presentation">
-                    <button class="tab-button" role="tab" aria-selected="false" aria-controls="panel-lieferscanner"
-                        data-tab="lieferscanner">
-                        📱 Lieferscanner
-                    </button>
-                </li>
-                <li role="presentation">
-                    <button class="tab-button" role="tab" aria-selected="false" aria-controls="panel-bestand"
-                        data-tab="bestand">
-                        📊 Bestandsabgleich
-                    </button>
-                </li>
-                <li role="presentation">
-                    <button class="tab-button" role="tab" aria-selected="false" aria-controls="panel-osf"
-                        data-tab="osf">
-                        🛒 OSF Bestellung
-                    </button>
-                </li>
-            </ul>
-        </nav>
+        <main class="main-content">
+            <button id="menu-toggle" class="menu-toggle">☰</button>
 
-        <!-- Content Area -->
-        <main class="content-area">
-            <!-- Welcome Panel -->
-            <div class="tab-panel active" id="panel-welcome" role="tabpanel">
+            <div id="home-view" class="view active">
                 <div class="welcome">
-                    <div class="welcome-content">
-                        <div class="welcome-icon">🛠️</div>
-                        <h2>Willkommen bei AruH Tools</h2>
-                        <p>Ihr zentrales Toolkit für effizientes Business-Management. Wählen Sie eine App aus den Tabs
-                            oben, um zu
-                            beginnen.</p>
-
-                        <div class="feature-grid">
-                            <div class="feature-card">
-                                <div class="feature-icon">💰</div>
-                                <div class="feature-title">Gebührenrechner</div>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">📦</div>
-                                <div class="feature-title">SpedScan</div>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">📱</div>
-                                <div class="feature-title">Lieferscanner</div>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">📊</div>
-                                <div class="feature-title">Bestandsabgleich</div>
-                            </div>
-                            <div class="feature-card">
-                                <div class="feature-icon">🛒</div>
-                                <div class="feature-title">OSF Bestellung</div>
-                            </div>
+                    <h2>Willkommen bei AruH Tools</h2>
+                    <p>Wählen Sie ein Tool aus dem Menü, um zu beginnen.</p>
+                    <div class="tools-grid">
+                        <div class="tool-card" data-app="gebuehrenrechner">
+                            <div class="tool-icon">💰</div>
+                            <h3>Gebührenrechner</h3>
+                            <p>Berechnung von Gebühren und Kosten</p>
+                        </div>
+                        <div class="tool-card" data-app="spedscan">
+                            <div class="tool-icon">📦</div>
+                            <h3>SpedScan</h3>
+                            <p>Scannen und Verwalten von Sendungen</p>
+                        </div>
+                        <div class="tool-card" data-app="lieferscanner">
+                            <div class="tool-icon">🚚</div>
+                            <h3>Lieferscanner</h3>
+                            <p>Lieferungen scannen und verfolgen</p>
+                        </div>
+                        <div class="tool-card" data-app="bestandsabgleich">
+                            <div class="tool-icon">📊</div>
+                            <h3>Bestandsabgleich</h3>
+                            <p>Bestände abgleichen und verwalten</p>
+                        </div>
+                        <div class="tool-card" data-app="osf-bestellung">
+                            <div class="tool-icon">🛒</div>
+                            <h3>OSF Bestellung</h3>
+                            <p>Bestellungen verwalten</p>
+                        </div>
+                        <div class="tool-card" data-app="bildkonverter">
+                            <div class="tool-icon">🖼️</div>
+                            <h3>BildKonverter</h3>
+                            <p>Bilder konvertieren und bearbeiten</p>
+                        </div>
+                        <div class="tool-card" data-app="csvmatcher">
+                            <div class="tool-icon">📋</div>
+                            <h3>CSV Matcher</h3>
+                            <p>CSV-Dateien abgleichen und matchen</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- App Panels -->
-            <div class="tab-panel" id="panel-gebuehren" role="tabpanel">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <div class="loading-text">Lade Gebührenrechner...</div>
+            <div id="app-view" class="view">
+                <div class="app-header">
+                    <button id="back-btn" class="back-button">
+                        <span>←</span> Zurück
+                    </button>
+                    <h2 id="app-title"></h2>
                 </div>
-            </div>
-
-            <div class="tab-panel" id="panel-spedscan" role="tabpanel">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <div class="loading-text">Lade SpedScan...</div>
-                </div>
-            </div>
-
-            <div class="tab-panel" id="panel-lieferscanner" role="tabpanel">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <div class="loading-text">Lade Lieferscanner...</div>
-                </div>
-            </div>
-
-            <div class="tab-panel" id="panel-bestand" role="tabpanel">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <div class="loading-text">Lade Bestandsabgleich...</div>
-                </div>
-            </div>
-
-            <div class="tab-panel" id="panel-osf" role="tabpanel">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <div class="loading-text">Lade OSF Bestellung...</div>
-                </div>
+                <div id="app-container"></div>
             </div>
         </main>
     </div>
 
     <script>
-        // Tab configuration
-        const tabs = {
-            welcome: { src: null, loaded: true },
-            gebuehren: { src: './apps/Gebührenrechner/Gebührenrechner.html', loaded: false },
-            spedscan: { src: './apps/SpedScan/index.html', loaded: false },
-            lieferscanner: { src: './apps/Lieferscanner/Lieferscanner.html', loaded: false },
-            bestand: { src: './apps/Bestandsabgleich/Bestandsabgleich.html', loaded: false },
-            osf: { src: './apps/OSF-Bestellung/OSF-Bestellung.html', loaded: false }
+        // App Configuration
+        const apps = {
+            gebuehrenrechner: { title: 'Gebührenrechner', path: 'apps/Gebuehrenrechner/index.html' },
+            spedscan: { title: 'SpedScan', path: 'apps/SpedScan/index.html' },
+            lieferscanner: { title: 'Lieferscanner', path: 'apps/Lieferscanner/index.html' },
+            bestandsabgleich: { title: 'Bestandsabgleich', path: 'apps/Bestandsabgleich/index.html' },
+            'osf-bestellung': { title: 'OSF Bestellung', path: 'apps/OSF_Bestellung/index.html' },
+            bildkonverter: { title: 'BildKonverter', path: 'apps/BildKonverter/index.html' },
+            csvmatcher: { title: 'CSV Matcher', path: 'apps/CSV_Matcher/Universal_CSV_Matcher.html' }
         };
 
-        let currentTab = localStorage.getItem('aruh-tools-current-tab') || 'welcome';
+        // DOM Elements
+        const homeView = document.getElementById('home-view');
+        const appView = document.getElementById('app-view');
+        const appContainer = document.getElementById('app-container');
+        const appTitle = document.getElementById('app-title');
+        const backBtn = document.getElementById('back-btn');
+        const navItems = document.querySelectorAll('.nav-item');
+        const toolCards = document.querySelectorAll('.tool-card');
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menu-toggle');
 
-        // Switch between tabs
-        function switchTab(tabName) {
-            // Update buttons
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                const isActive = btn.dataset.tab === tabName;
-                btn.classList.toggle('active', isActive);
-                btn.setAttribute('aria-selected', isActive);
+        // Navigation
+        function showHome() {
+            homeView.classList.add('active');
+            appView.classList.remove('active');
+            navItems.forEach(item => {
+                if (item.dataset.app === 'home') item.classList.add('active');
+                else item.classList.remove('active');
             });
+            appContainer.innerHTML = '';
 
-            // Update panels
-            document.querySelectorAll('.tab-panel').forEach(panel => {
-                panel.classList.remove('active');
-            });
-
-            const panel = document.getElementById(`panel-${tabName}`);
-            if (panel) {
-                panel.classList.add('active');
+            // On mobile, close sidebar after selection
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('open');
             }
-
-            // Load iframe if not loaded
-            if (!tabs[tabName].loaded && tabs[tabName].src) {
-                loadApp(tabName);
-            }
-
-            // Save to localStorage
-            currentTab = tabName;
-            localStorage.setItem('aruh-tools-current-tab', tabName);
         }
 
-        // Load app into iframe
-        function loadApp(tabName) {
-            const panel = document.getElementById(`panel-${tabName}`);
-            if (!panel) return;
+        function showApp(appKey) {
+            const app = apps[appKey];
+            if (!app) return;
 
-            const iframe = document.createElement('iframe');
-            iframe.className = 'app-frame';
-            iframe.src = tabs[tabName].src;
-            iframe.setAttribute('title', tabName);
+            homeView.classList.remove('active');
+            appView.classList.add('active');
+            appTitle.textContent = app.title;
 
-            iframe.onload = () => {
-                panel.innerHTML = '';
-                panel.appendChild(iframe);
-                tabs[tabName].loaded = true;
-            };
+            navItems.forEach(item => {
+                if (item.dataset.app === appKey) item.classList.add('active');
+                else item.classList.remove('active');
+            });
 
-            iframe.onerror = () => {
-                panel.innerHTML = `
-                <div class="loading">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
-                    <div class="loading-text">Fehler beim Laden der App</div>
-                </div>
-                `;
-            };
+            appContainer.innerHTML = `<iframe src="${app.path}"></iframe>`;
+
+            // On mobile, close sidebar after selection
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('open');
+            }
         }
 
-        // Add click handlers to tab buttons
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                switchTab(button.dataset.tab);
+        // Event Listeners
+        backBtn.addEventListener('click', showHome);
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const appKey = item.dataset.app;
+                if (appKey === 'home') showHome();
+                else showApp(appKey);
             });
         });
 
-        // Initialize with saved or default tab
-        if (currentTab !== 'welcome') {
-            switchTab(currentTab);
-        }
-
-        // PWA Install Prompt (with null checks)
-        let deferredPrompt;
-        const installPrompt = document.getElementById('installPrompt');
-        const installBtn = document.getElementById('installBtn');
-        const dismissBtn = document.getElementById('dismissBtn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-
-            // Show install prompt if not dismissed and element exists
-            if (installPrompt && !localStorage.getItem('aruh-tools-install-dismissed')) {
-                setTimeout(() => {
-                    installPrompt.classList.add('show');
-                }, 3000);
-            }
+        toolCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const appKey = card.dataset.app;
+                showApp(appKey);
+            });
         });
 
-        if (installBtn) {
-            installBtn.addEventListener('click', async () => {
-                if (!deferredPrompt) return;
-
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-
-                if (outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                }
-
-                deferredPrompt = null;
-                if (installPrompt) {
-                    installPrompt.classList.remove('show');
-                }
-            });
-        }
-
-        if (dismissBtn) {
-            dismissBtn.addEventListener('click', () => {
-                if (installPrompt) {
-                    installPrompt.classList.remove('show');
-                }
-                localStorage.setItem('aruh-tools-install-dismissed', 'true');
-            });
-        }
-
-        // Register Service Worker
+        // Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
+                navigator.serviceWorker.register('service-worker.js')
                     .then(registration => {
-                        console.log('Service Worker registered successfully:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('Service Worker registration failed:', error);
+                        console.log('ServiceWorker registration successful');
+                    }, err => {
+                        console.log('ServiceWorker registration failed: ', err);
                     });
             });
         }
-
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Alt + Number to switch tabs
-            if (e.altKey && e.key >= '1' && e.key <= '6') {
-                e.preventDefault();
-                const tabNames = ['welcome', 'gebuehren', 'spedscan', 'lieferscanner', 'bestand', 'osf'];
-                const index = parseInt(e.key) - 1;
-                if (tabNames[index]) {
-                    switchTab(tabNames[index]);
-                }
-            }
-        });
     </script>
 </body>
 
